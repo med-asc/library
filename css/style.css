@@ -1,0 +1,38 @@
+/* || General styles */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: lato-regular;
+    src: url(./Lato-Regular.ttf);
+}
+
+html, 
+body {
+    height: 100vh;
+}
+
+body {
+    font-family: lato-regular, sans-serif, Arial;
+    display: grid;
+    grid-template-rows: 1fr 4fr;
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+
+/* || Sitewide */
+header {
+    text-align: center;
+}
+
+.container {
+    padding: 24px;
+}
+
+
+/* || Cards / Books */
