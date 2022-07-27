@@ -24,6 +24,10 @@ h1 {
     font-size: 4rem;
 }
 
+h2 {
+    margin-bottom: 16px;
+}
+
 
 /* || Sitewide */
 header {
@@ -36,3 +40,13 @@ header {
 
 
 /* || Cards / Books */
+.books {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+}
+
+.book {
+    border: 1px solid black;
+    padding: 16px;
+}
