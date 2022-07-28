@@ -1,3 +1,10 @@
+:root {
+    --color-blue: rgb(61, 76, 136);
+    --color-light-blue: rgb(83, 94, 135);
+    --color-white: rgb(240, 239, 239);
+}
+
+
 /* || General styles */
 * {
     margin: 0;
@@ -17,7 +24,7 @@ body {
 body {
     font-family: lato-regular, sans-serif, Arial;
     display: grid;
-    grid-template-rows: 1fr 4fr;
+    grid-template-rows: min-content 1fr;
 }
 
 h1 {
@@ -31,7 +38,10 @@ h2 {
 
 /* || Sitewide */
 header {
+    display: grid;
+    justify-content: center;
     text-align: center;
+    row-gap: 16px;
 }
 
 .container {
@@ -49,4 +59,70 @@ header {
 .book {
     border: 1px solid black;
     padding: 16px;
+}
+
+/* || Form / Add book */
+.btn {
+    border: none;
+    padding: 16px;
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--color-light-blue);
+}
+
+.form-book {
+    display: grid;
+    gap: 16px;
+}
+
+.form-row > label,
+.form-row > p {
+    text-align: start;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-row input[type=text],
+.form-row input[type=number] {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid var(--color-blue);
+    padding: 8px;
+    font: inherit;
+}
+
+.checkbox {
+    display: flex;
+    justify-content: center;
+    gap: 18px
+}
+
+.form {
+    display: none;
+}
+
+.form[open] {
+    animation: slide-down 1000ms forwards, fade-in 500ms forwards;
+}
+
+@keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}
+
+@keyframes slide-down {
+    0% {
+        transform: translateY(-10%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
 }

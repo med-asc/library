@@ -11,6 +11,37 @@
     <header class="container">
         <h1>Library</h1>
         <p>Created by med-asc</p>
+        <button class="btn btn-add-book">New book</button>
+        <form action="" class="form">
+            <div class="form-book">
+                <div class="form-row">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title">
+                </div>
+                <div class="form-row">
+                    <label for="author">Author</label>
+                    <input type="text" name="author" id="author">
+                </div>
+                <div class="form-row">
+                    <label for="pages">Pages</label>
+                    <input type="number" name="pages" id="pages">
+                </div>
+                <div class="form-row">
+                    <p>Have you read it?</p>
+                    <div class="checkbox">
+                        <div>
+                            <label for="yes">Yes</label>
+                            <input type="radio" name="read" id="yes">
+                        </div>
+                        <div>
+                            <label for="no">No</label>
+                            <input type="radio" name="read" id="no" checked>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn">Add book</button>
+            </div>
+        </form>
     </header>
     <main class="container">
         <div class="books"></div>
