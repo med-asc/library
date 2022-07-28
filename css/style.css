@@ -109,6 +109,15 @@ header {
     animation: slide-down 1000ms forwards, fade-in 500ms forwards;
 }
 
+.form[close] {
+    animation: slide-up 1000ms forwards, fade-out 500ms forwards;
+}
+
+.form-row input.error {
+    border: 1px solid rgb(255, 46, 64);
+}
+
+/* || Animations */
 @keyframes fade-in {
     0% {
       opacity: 0;
@@ -124,5 +133,23 @@ header {
     }
     100% {
         transform: translateY(0%);
+    }
+}
+
+@keyframes slide-up {
+    0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(10%);
+    }
+}
+
+@keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
     }
 }
