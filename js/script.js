@@ -34,7 +34,7 @@ Book.prototype.addBookToLibrary = function() {
   });
 
   // Create the html for card
-  let card, cardHeading, cardContent, cardFooter, title, author, pages, read, delBtn
+  let card, cardHeading, cardContent, cardFooter, title, author, pages, read, readBtn, delBtn
   // Create Card
   card = document.createElement('div');
   card.classList.add('book');
@@ -62,16 +62,21 @@ Book.prototype.addBookToLibrary = function() {
 
   // Create Card footer div
   cardFooter = document.createElement('div');
-  cardFooter.classList.add('card-footer')
+  cardFooter.classList.add('card-footer');
+  readBtn = document.createElement('button');
+  readBtn.textContent = `${this.read ? 'Read' : 'Not read'}`;
+  readBtn.classList.add('btn', `${this.read ? 'btn-green' : 'btn-yellow'}`) // Different class for read
   delBtn = document.createElement('button');
   delBtn.textContent = 'Delete';
   delBtn.classList.add('btn', 'btn-red');
-  cardFooter.appendChild(delBtn)
+  cardFooter.appendChild(readBtn);
+  cardFooter.appendChild(delBtn);
   card.appendChild(cardFooter);
 
   books.appendChild(card);
 
-  delBtn.addEventListener('click', () => this.deleteBook())
+  delBtn.addEventListener('click', () => this.deleteBook());
+  readBtn.addEventListener('click', () => this.readToggle());
 };
 
 Book.prototype.deleteBook = function() {
@@ -82,6 +87,28 @@ Book.prototype.deleteBook = function() {
   // Remove the html
   let book = document.querySelector(`div[data-id="${this.id}"]`);
   book.remove()
+}
+
+Book.prototype.readToggle = function() {
+  let index = myLibrary.findIndex(x => x.id === this.id);
+  const readElement = document.querySelector(`div[data-id="${this.id}"] .card-content p:last-child`);
+
+  let btn = document.querySelector(`div[data-id="${this.id}"] .card-footer button:first-child`);
+  if (btn.textContent === 'Read') {
+    btn.textContent = 'Not read';
+    btn.classList.add('btn-yellow');
+    btn.classList.remove('btn-green');
+
+    myLibrary[index].read = 'Not read';
+    readElement.textContent = 'I have not read this book yet.'
+  } else {
+    btn.textContent = 'Read';
+    btn.classList.add('btn-green');
+    btn.classList.remove('btn-yellow');
+
+    myLibrary[index].read = 'Read';
+    readElement.textContent = 'I have read this book.';
+  }
 }
 
 // -----------------
