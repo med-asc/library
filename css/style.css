@@ -1,7 +1,9 @@
 :root {
-    --color-blue: rgb(61, 76, 136);
-    --color-light-blue: rgb(83, 94, 135);
-    --color-white: rgb(240, 239, 239);
+    --color-blue: rgb(61 76 136);
+    --color-light-blue: rgb(83 94 135);
+    --color-white: rgb(240 239 239);
+    --color-red: rgb(213, 57, 57);
+    --color-light-red: rgb(219, 78, 78);
 }
 
 
@@ -31,10 +33,6 @@ h1 {
     font-size: 4rem;
 }
 
-h2 {
-    margin-bottom: 16px;
-}
-
 
 /* || Sitewide */
 header {
@@ -59,7 +57,11 @@ header {
 .book {
     border: 1px solid black;
     padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
+
 
 /* || Form / Add book */
 .btn {
@@ -72,6 +74,16 @@ header {
 
 .btn:hover {
     background-color: var(--color-light-blue);
+}
+
+.btn-red {
+    background-color: var(--color-red);
+    color: var(--color-white);
+    padding: 8px;
+}
+
+.btn-red:hover {
+    background-color: var(--color-light-red);
 }
 
 .form-book {
