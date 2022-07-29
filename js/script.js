@@ -1,115 +1,92 @@
-const books = document.querySelector('.books');
 const btnShowForm = document.querySelector('.btn-show-form');
 const formAddBook = document.querySelector('.form');
 const btnAddBook = document.querySelector('.btn-add-book');
 const inputElements = document.querySelectorAll('input');
-let bookIdCounter = 0;
 
-let myLibrary = [
-  { title: 'Blood of Elves', author: 'Andrzej Sapkowski', pages: '320', read: true },
-  { title: 'The Blade Itself', author: 'Joe Abercrombie', pages: '529', read: true },
-  { title: 'Before They Are Hanged', author: 'Joe Abercrombie', pages: '539', read: false },
-];
+const books = document.querySelector('.books');
+let bookIdCounter = 0;
+let myLibrary = [];
+
+// -----------------
+//  Book and library
+// -----------------
 
 // Constructor for books
 function Book(title, author, pages, read) {
+  this.id = ++bookIdCounter;
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
+  this.addBookToLibrary();
 }
 
-function addBookToLibrary(obj) {
+// Adds books to array, then creates the html with values
+// that is added to the page
+Book.prototype.addBookToLibrary = function() {
+  // Add book to array MyLib
   myLibrary.push({
-    title: obj.title,
-    author: obj.author,
-    pages: obj.pages,
-    read: obj.read,
+    id: this.id,
+    title: this.title,
+    author: this.author,
+    pages: this.pages,
+    read: this.read,
   });
+
+  // Create the html for card
+  let card, cardHeading, cardContent, cardFooter, title, author, pages, read, delBtn
+  // Create Card
+  card = document.createElement('div');
+  card.classList.add('book');
+  card.setAttribute('data-id', this.id);
+
+  // Create Card heading div
+  cardHeading = document.createElement('div');
+  cardHeading.classList.add('card-heading')
+  title = document.createElement('h2');
+  title.textContent = this.title;
+  cardHeading.appendChild(title);
+  card.appendChild(cardHeading);
+
+  // Create Card content div
+  cardContent = document.createElement('div');
+  cardContent.classList.add('card-content')
+  author = document.createElement('p');
+  author.textContent = `Written by ${this.author}.`;
+  pages = document.createElement('p');
+  pages.textContent = `The book has ${this.pages} pages.`;
+  read = document.createElement('p');
+  read.textContent = `${this.read ? 'I have read this book.' : 'I have not read this book yet.'}`;
+  cardContent.append(author, pages, read);
+  card.appendChild(cardContent);
+
+  // Create Card footer div
+  cardFooter = document.createElement('div');
+  cardFooter.classList.add('card-footer')
+  delBtn = document.createElement('button');
+  delBtn.textContent = 'Delete';
+  delBtn.classList.add('btn', 'btn-red');
+  cardFooter.appendChild(delBtn)
+  card.appendChild(cardFooter);
+
+  books.appendChild(card);
+
+  delBtn.addEventListener('click', () => this.deleteBook())
+};
+
+Book.prototype.deleteBook = function() {
+  // Remove from array
+  let index = myLibrary.findIndex(x => x.id === this.id);
+  myLibrary.splice(index, 1);
+
+  // Remove the html
+  let book = document.querySelector(`div[data-id="${this.id}"]`);
+  book.remove()
 }
 
-function displayBooks(){
-  let card, cardHeading, cardContent, cardFooter, title, author, pages, read, delBtn;
-
-  // Count books on page for knowing how many are missing
-  let countPresentedBooks = books.childElementCount === 0 ?
-    0 : 
-    myLibrary.length - (myLibrary.length - books.childElementCount);
-
-  // Loop through the array "myLibrary" and 
-  // create a card for each book with its data.
-  // If only some books are presented, add the ones missing.
-  // Add the books to the page.
-  for (let i = countPresentedBooks; i < myLibrary.length; i++) {
-    // Create card
-    card = document.createElement('div');
-    card.classList.add('book');
-    bookIdCounter++
-    card.setAttribute('data-index', bookIdCounter);
-
-    // Create Card heading div
-    cardHeading = document.createElement('div');
-    cardHeading.classList.add('card-heading')
-
-    // Create Card content div
-    cardContent = document.createElement('div');
-    cardContent.classList.add('card-content')
-
-    // Create Card footer div
-    cardFooter = document.createElement('div');
-    cardFooter.classList.add('card-footer')
-
-    // Create title
-    title = document.createElement('h2');
-    title.textContent = myLibrary[i].title;
-
-    // Create author
-    author = document.createElement('p');
-    author.textContent = `Written by ${myLibrary[i].author}.`;
-
-    // Create pages
-    pages = document.createElement('p');
-    pages.textContent = `The book has ${myLibrary[i].pages} pages.`;
-
-    // Create read
-    read = document.createElement('p');
-    read.textContent = `${myLibrary[i].read ? 'I have read this book.' : 'I have not read this book yet.'}`;
-
-    // Create delet btn
-    delBtn = document.createElement('button');
-    delBtn.textContent = 'Delete';
-    delBtn.classList.add('btn', 'btn-red');
-
-    // Append elements
-    cardHeading.appendChild(title);
-    card.appendChild(cardHeading);
-
-    cardContent.append(author, pages, read);
-    card.appendChild(cardContent);
-
-    cardFooter.appendChild(delBtn)
-    card.appendChild(cardFooter);
-
-    books.appendChild(card);
-  }
-
-  // Delete function
-  // If click on delete button, grab
-  // data-index attribute and delete that index in array
-  const btnDel = document.querySelectorAll('.btn-red')
-  btnDel.forEach((button) => {
-    button.addEventListener('click', () => {
-      let bookId = button.parentElement.parentElement.getAttribute('data-index');
-      let bookIndex = myLibrary.findIndex(object => {
-        return object.id === bookId;
-      });
-  
-      myLibrary.splice(bookIndex, 1);
-      button.parentElement.parentElement.remove();
-    })
-  })
-}
-
+// -----------------
+//  UI
+// -----------------
 // Show and animate the form
 btnShowForm.addEventListener('click', () => {
   formAddBook.setAttribute('open', '')
@@ -129,27 +106,20 @@ btnAddBook.addEventListener('click', (e) => {
   let read = document.querySelector('input[name="read"]:checked').id;
   read = read === 'yes' ? true : false;
 
-  // If form field empty add error class
+  // If the form fields are empty add an error class
   if (title === '' || author === '' || pages === '') {
     if (title === '') document.querySelector('#title').classList.add('error');
     if (author === '') document.querySelector('#author').classList.add('error');
     if (pages === '') document.querySelector('#pages').classList.add('error');
-
   } else {
     // Use constructor to create a book
     let newBook = new Book(title, author, pages, read);
-
-    // Add book to library
-    addBookToLibrary(newBook);
-
-    // Display the new book
-    displayBooks();
 
     // Empty the form
     formAddBook.reset();
 
     // Hide form
-    formAddBook.setAttribute('close', '')
+    formAddBook.setAttribute('close', '');
 
     formAddBook.addEventListener("animationend", () => {
       formAddBook.style.display = 'none';
@@ -158,7 +128,6 @@ btnAddBook.addEventListener('click', (e) => {
       // Show button to add new book
       btnShowForm.style.display = 'block';
     }, { once: true });
-    
   }
 })
 
@@ -171,4 +140,6 @@ inputElements.forEach((input) => {
   })
 })
 
-displayBooks();
+let book1 = new Book('Blood of Elves', 'Andrzej Sapkowski', 320, true);
+let book2 = new Book('The Blade Itself', 'Joe Abercrombie', 529, true);
+let book3 = new Book('Before They Are Hanged', 'Joe Abercrombie', 539, false);
