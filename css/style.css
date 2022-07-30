@@ -1,12 +1,18 @@
 :root {
-    --color-blue: rgb(61 76 136);
+    --color-blue: rgb(61, 75, 95);
     --color-light-blue: rgb(83 94 135);
-    --color-white: rgb(240 239 239);
-    --color-red: rgb(213, 57, 57);
-    --color-light-red: rgb(219, 78, 78);
-    --color-yellow: rgb(227, 221, 51);
-    --color-green: rgb(55, 190, 64);
+    --color-white: rgb(249, 250, 251);
+    --color-red: rgb(193, 85, 78);
+    --color-dark-red: rgb(147, 64, 58);
+    --color-yellow: rgb(222, 160, 30);
+    --color-dark-yellow: rgb(181, 131, 24);
+    --color-green: rgb(0, 198, 185);
+    --color-dark-green: rgb(1, 159, 148);
     --color-black: rgb(21, 21, 21);
+    --border-color: rgb(203, 213, 225);
+    --distance-sm: 8px;
+    --distance-m: 16px;
+    --distance-l: 24px;
 }
 
 
@@ -27,6 +33,7 @@ body {
 }
 
 body {
+    background-color: var(--color-white);
     font-family: lato-regular, sans-serif, Arial;
     display: grid;
     grid-template-rows: min-content 1fr;
@@ -34,6 +41,7 @@ body {
 
 h1 {
     font-size: 4rem;
+    color: var(--color-blue);
 }
 
 
@@ -42,11 +50,11 @@ header {
     display: grid;
     justify-content: center;
     text-align: center;
-    row-gap: 16px;
+    row-gap: var(--distance-m);
 }
 
 .container {
-    padding: 24px;
+    padding: var(--distance-l);
 }
 
 
@@ -54,15 +62,15 @@ header {
 .books {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px;
+    gap: var(--distance-l);
 }
 
 .book {
-    border: 1px solid black;
-    padding: 16px;
+    border: 2px solid var(--border-color);
+    padding: var(--distance-m);
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--distance-m);
 }
 
 .card-footer {
@@ -73,7 +81,7 @@ header {
 /* || Form / Add book */
 .btn {
     border: none;
-    padding: 16px;
+    padding: var(--distance-m);
     background-color: var(--color-blue);
     color: var(--color-white);
     cursor: pointer;
@@ -86,42 +94,47 @@ header {
 .btn-red {
     background-color: var(--color-red);
     color: var(--color-white);
-    padding: 8px;
+    padding: var(--distance-sm);
 }
 
 .btn-red:hover {
-    background-color: var(--color-light-red);
+    background-color: var(--color-dark-red);
 }
 
 .btn-green {
     background-color: var(--color-green);
-    padding: 8px;
+    color: var(--color-black);
+    padding: var(--distance-sm);
+    min-width: 80px;
 }
 
 .btn-green:hover {
-    background-color: var(--color-green);
+    background-color: var(--color-dark-green);
+    color: var(--color-white);
 }
 
 .btn-yellow {
     background-color: var(--color-yellow);
     color: var(--color-black);
-    padding: 8px;
+    padding: var(--distance-sm);
+    min-width: 80px;
 }
 
 .btn-yellow:hover {
-    background-color: var(--color-yellow);
+    background-color: var(--color-dark-yellow);
+    color: var(--color-white);
 }
 
 .form-book {
     display: grid;
-    gap: 16px;
+    gap: var(--distance-m);
 }
 
 .form-row > label,
 .form-row > p {
     text-align: start;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: var(--distance-sm);
 }
 
 .form-row input[type=text],
@@ -129,7 +142,7 @@ header {
     box-sizing: border-box;
     width: 100%;
     border: 1px solid var(--color-blue);
-    padding: 8px;
+    padding: var(--distance-sm);
     font: inherit;
 }
 
