@@ -21,10 +21,6 @@ let library = {
   },
   cacheDoom: function() {
     this.htmlBooks = document.querySelector('.books');
-    this.htmlBtnShowForm = document.querySelector('.btn-show-form');
-    this.htmlFormAddBook = document.querySelector('.form');
-    this.htmlBtnAddBook = document.querySelector('.btn-add-book');
-    this.htmlInputElements = document.querySelectorAll('input');
   },
   bindEvents: function() {
     // Read toggle button
@@ -103,63 +99,68 @@ let library = {
   },
 }
 
-library.init();
-
 // -----------------
 //  UI
 // -----------------
-// // Show and animate the form
-// btnShowForm.addEventListener('click', () => {
-//   formAddBook.setAttribute('open', '')
-//   formAddBook.style.display = 'block';
-//   btnShowForm.style.display = 'None';
-// })
+let form = {
+  init: function() {
+    this.cacheDoom();
+    this.bindEvents();
+  },
+  cacheDoom: function() {
+    this.htmlBtnShowForm = document.querySelector('.btn-show-form');
+    this.htmlForm = document.querySelector('.form');
+    this.htmlBtnAddBook = document.querySelector('.btn-add-book');
+    this.htmlTitle = document.querySelector('#title');
+    this.htmlAuthor = document.querySelector('#author');
+    this.htmlPages = document.querySelector('#pages');
+    this.htmlRead = document.querySelector('input[name="read"]');
+  },
+  bindEvents: function() {
+    this.htmlBtnShowForm.addEventListener('click', () => {
+      this.showForm();
+    });
 
-// // When click on button "add book"
-// btnAddBook.addEventListener('click', (e) => {
-//   // Prevent the submit when clicking the button
-//   e.preventDefault();
+    this.htmlBtnAddBook.addEventListener('click', (e) => {
+      this.createBook(e);
+    });
+  },
+  showForm: function() {
+    this.htmlForm.setAttribute('open', '')
+    this.htmlForm.style.display = 'block';
+    this.htmlBtnShowForm.style.display = 'None';
+  },
+  hideForm: function() {
+    this.htmlForm.addEventListener("animationend", () => {
+      this.htmlForm.style.display = 'none';
+      this.htmlForm.removeAttribute('close', '')
 
-//   // Get input from form
-//   let title = document.querySelector('#title').value;
-//   let author = document.querySelector('#author').value;
-//   let pages = document.querySelector('#pages').value;
-//   let read = document.querySelector('input[name="read"]:checked').id;
-//   read = read === 'yes' ? true : false;
+      // Show button to add new book
+      this.htmlBtnShowForm .style.display = 'block';
+    }, { once: true });
+  },
+  createBook: function(e) {
+    // The if statement is for keeping the HTML form validation.
+    if (this.htmlTitle.value !== '' && this.htmlAuthor.value !== '' && this.htmlPages.value !== '') {
+      // Prevent form submit
+      e.preventDefault();
 
-//   // If the form fields are empty add an error class
-//   if (title === '' || author === '' || pages === '') {
-//     if (title === '') document.querySelector('#title').classList.add('error');
-//     if (author === '') document.querySelector('#author').classList.add('error');
-//     if (pages === '') document.querySelector('#pages').classList.add('error');
-//   } else {
-//     // Use constructor to create a book
-//     let newBook = new Book(title, author, pages, read);
+      let newBook = new Book(
+        this.htmlTitle.value,
+        this.htmlAuthor.value,
+        this.htmlPages.value,
+        this.htmlRead.checked
+      );
+      library.addBookToLibrary(newBook);
+      this.htmlForm.reset();
+      this.htmlForm.setAttribute('close', '');
+      this.hideForm();
+    }
+  }
+}
 
-//     // Empty the form
-//     formAddBook.reset();
-
-//     // Hide form
-//     formAddBook.setAttribute('close', '');
-
-//     formAddBook.addEventListener("animationend", () => {
-//       formAddBook.style.display = 'none';
-//       formAddBook.removeAttribute('close', '')
-
-//       // Show button to add new book
-//       btnShowForm.style.display = 'block';
-//     }, { once: true });
-//   }
-// })
-
-// // Remove error class from form
-// inputElements.forEach((input) => {
-//   input.addEventListener('focusout', () => {
-//     if (input.classList[0] === 'error' && input.value !== '') {
-//       input.classList.remove('error');
-//     }
-//   })
-// })
+library.init();
+form.init();
 
 let book1 = new Book('Blood of Elves', 'Andrzej Sapkowski', 320, true);
 library.addBookToLibrary(book1);
