@@ -61,7 +61,7 @@ header {
 /* || Cards / Books */
 .books {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: var(--distance-l);
 }
 
@@ -162,10 +162,6 @@ header {
 
 .form[close] {
     animation: slide-up 1000ms forwards, fade-out 500ms forwards;
-}
-
-.form-row input.error {
-    border: 1px solid rgb(255, 46, 64);
 }
 
 /* || Animations */
